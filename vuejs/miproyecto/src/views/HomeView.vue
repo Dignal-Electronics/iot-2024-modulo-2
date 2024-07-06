@@ -41,31 +41,61 @@ const operacion = () => {
 //    Si la condición no se cumple.
 //}
 const edad = ref(0);
+
+// Directiva v-for
+const usuarios = ref([
+  { nombre: "Juan", correo: "juan@mail.com"},
+  { nombre: "Diana", correo: "diana@mail.com"},
+  { nombre: "Ana", correo: "ana@mail.com"},
+]);
 </script>
 
 <template>
   <main>
     <TheWelcome :text="mensaje"/>
     <p>{{ mensaje }}</p>
-    <button @click="actualizaMensaje()">Actualizar mensaje</button>
+    <v-btn color="purple-darken-4" variant="tonal" @click="actualizaMensaje()">Actualizar mensaje</v-btn>
 
     <hr><br>
 
-    <input type="text" v-model="n1" @keyup="operacion()">
-    <select v-model="operador" @change="operacion()">
-      <option>+</option>
-      <option>-</option>
-      <option>*</option>
-    </select>
-    <input type="text" v-model="n2" @keyup="operacion()">
+    <v-text-field type="text" v-model="n1" @keyup="operacion()"></v-text-field>
+
+    <v-select
+      :items="['+', '-', '*']"
+      v-model="operador"
+      @change="operacion()"
+    ></v-select>
+
+    <v-text-field type="text" v-model="n2" @keyup="operacion()"></v-text-field>
 
     <h2>{{ `El resultado de la operación es ${resultado}` }}</h2>
 
     <hr><br><br>
 
-    <input type="number" v-model="edad">
+    <v-text-field type="number" v-model="edad"></v-text-field>
     <h2 v-if="edad >= 18">Es mayor de edad</h2>
     <h2 v-else>Es menor de edad</h2>
 
+
+    <hr><br><br>
+
+    <!-- Directiva v-for -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="persona in usuarios" :key="persona.name">
+          <td>{{ persona.nombre }}</td>
+          <td>{{ persona.correo }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- vuetify table -->
+    <v-data-table :items="usuarios"></v-data-table>
   </main>
 </template>
